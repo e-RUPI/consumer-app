@@ -28,8 +28,14 @@ export default function Home() {
         }}
       />
       <Text>Home Screen</Text>
-      <Link href={{ pathname: "page1", params: { name: "Bacon" } }}>
-        Go to Page 1
+      <Link href={{ pathname: "Signup", params: { name: "Bacon" } }}>
+        Go to  Signup Page 
+      </Link>
+      <Link href={{ pathname: "Login", params: { name: "Bacon" } }}>
+        Go to Login Page 
+      </Link>
+      <Link href={{ pathname: "Home", params: { name: "Bacon" } }}>
+        Go to Home Page 
       </Link>
     </View>
   );
