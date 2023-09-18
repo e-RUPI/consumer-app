@@ -15,21 +15,29 @@ export default function Home() {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Stack.Screen
         options={{
-          // https://reactnavigation.org/docs/headers#setting-the-header-title
-          title: "My home",
-          // https://reactnavigation.org/docs/headers#adjusting-header-styles
+          title: "Login",
           headerStyle: { backgroundColor: "#73f077" },
           headerTintColor: "#fff",
           headerTitleStyle: {
             fontWeight: "bold",
           },
-          // https://reactnavigation.org/docs/headers#replacing-the-title-with-a-custom-component
-          // headerTitle: (props) => <LogoTitle {...props} />,
         }}
       />
-      <Text>Home Screen</Text>
-      <Link href={{ pathname: "page1", params: { name: "Bacon" } }}>
-        Go to Page 1
+      <Text>Click on the links below: </Text>
+      <Link href={{ pathname: "home", params: { name: "home" } }}>
+        Go to Homepage
+      </Link>
+      <Link href={{ pathname: "login", params: { name: "login" } }}>
+        Go to Login
+      </Link>
+      <Link href={{ pathname: "signup", params: { name: "signup" } }}>
+        Go to Signup
+      </Link>
+      <Link href={{ pathname: "vouchers", params: { name: "vouchers" } }}>
+        Go to Vouchers
+      </Link>
+      <Link href={{ pathname: "schemes", params: { name: "schemes" } }}>
+        Go to Schemes
       </Link>
     </View>
   );
