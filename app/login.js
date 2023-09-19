@@ -27,18 +27,16 @@ export default function login() {
           title: params.name,
           headerShadowVisible: false,
           headerStyle: { backgroundColor: "#fff" },
-          headerTintColor: "#fff",
+          headerTintColor: "#000",
         }}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{ paddingBottom: 16, alignItems: "center" }}>
-          <Text style={{ fontSize: 30, fontWeight: 600 }}>Log In</Text>
-        </View>
+        {/* <View style={{ paddingBottom: 10, alignItems: "center" }}>
+          <Text style={{ fontSize: 20, fontWeight: 600 }}>Log In</Text>
+        </View> */}
 
-        <View style={{ padding: 32, alignItems: "center" }}>
-          {/* <Text>Graphic</Text> */}
-          {/* <Image source={require("../assets/images/login.gif")} /> */}
-          <Image source={loginImg} style={{ width: 330, height: 250 }} />
+        <View style={{ padding: 10, alignItems: "center" }}>
+          <Image source={loginImg} style={{ width: 280, height: 240 }} />
         </View>
 
         <View style={{ paddingLeft: 48, paddingRight: 48 }}>
