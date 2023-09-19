@@ -24,16 +24,16 @@ export default function Home() {
         }}
       />
       <Text>Click on the links below: </Text>
-      <Link href={{ pathname: "home", params: { name: "home" } }}>
+      <Link href={{ pathname: "home", params: { name: "Home" } }}>
         Go to Homepage
       </Link>
-      <Link href={{ pathname: "login", params: { name: "login" } }}>
+      <Link href={{ pathname: "login", params: { name: "Login" } }}>
         Go to Login
       </Link>
-      <Link href={{ pathname: "signup", params: { name: "signup" } }}>
+      <Link href={{ pathname: "signup", params: { name: "Signup" } }}>
         Go to Signup
       </Link>
-      <Link href={{ pathname: "vouchers", params: { name: "vouchers" } }}>
+      <Link href={{ pathname: "vouchers", params: { name: "Vouchers" } }}>
         Go to Vouchers
       </Link>
       <Link href={{ pathname: "schemes", params: { name: "schemes" } }}>
