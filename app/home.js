@@ -4,7 +4,7 @@ import Wallet from "../assets/images/payment.gif";
 import { Card, Divider, Button } from "@rneui/base";
 import coupon from "../assets/images/coupon.png";
 import next from "../assets/images/next.png";
-import { Avatar } from "@rneui/themed";
+import { Avatar, Icon } from "@rneui/themed";
 const Vouchers = [
   {
     name: "Active",
@@ -138,32 +138,30 @@ export default function home() {
 
           {Schemes.map((item, index) => (
             <Card borderRadius={10} key={index}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "left",
-                  alignItems: "center",
-                }}
-              >
-                <Image source={coupon} style={{ width: 30, height: 30 }} />
-                <Text
-                  style={{ fontSize: 14, fontWeight: "bold", marginLeft: 10 }}
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image source={coupon} style={{ width: 20, height: 20 }} />
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginLeft: 10,
+                  }}
                 >
-                  {item.name}
-                </Text>
+                  <Text style={{ fontSize: 14, fontWeight: "bold" }}>
+                    {item.name}
+                  </Text>
+                </View>
               </View>
 
               <Divider marginTop={10} marginBottom={10} />
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-                  {item.content}
-                </Text>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={{ flex: 1 }}>
+                  <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+                    {item.content}
+                  </Text>
+                </View>
                 <Image source={next} style={{ width: 30, height: 30 }} />
               </View>
             </Card>
