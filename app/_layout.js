@@ -12,6 +12,8 @@ export default function Layout() {
           fontWeight: "bold",
         },
       }}
-    ></Stack>
+    >
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    </Stack>
   );
 }

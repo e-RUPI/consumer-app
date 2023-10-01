@@ -39,6 +39,9 @@ export default function Home() {
       <Link href={{ pathname: "schemes", params: { name: "schemes" } }}>
         Go to Schemes
       </Link>
+      <Link href={{ pathname: "home1", params: { name: "Home" } }}>
+        Go to temp
+      </Link>
     </View>
   );
 }
