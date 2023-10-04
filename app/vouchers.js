@@ -11,6 +11,7 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
+import { Stack } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -44,9 +45,16 @@ const dummyData = [
 
 const Voucher = () => {
   const [activeTab, setActiveTab] = useState("Active");
+  const [activeFilter, setActiveFilter] = useState(null); // Store the active filter
 
   const handleTabPress = (tabName) => {
     setActiveTab(tabName);
+    // Reset the active filter when changing voucher types
+    setActiveFilter(null);
+  };
+
+  const handleFilterPress = (filterName) => {
+    setActiveFilter(filterName);
   };
 
   const numColumns = 2; // Number of columns
@@ -59,9 +67,92 @@ const Voucher = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{ backgroundColor: "#fff", flex: 1 }}>
+      <Stack.Screen
+        options={{
+          title: "",
+          headerShadowVisible: false,
+          headerStyle: { backgroundColor: "#fff" },
+          headerTintColor: "#000",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+
+          headerLeft: () => (
+            <Pressable
+              style={{
+                marginHorizontal: 10,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginTop: 9,
+                gap: 12,
+              }}
+            >
+              <Pressable>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Image
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 20,
+                      resizeMode: "cover",
+                    }}
+                    source={{
+                      uri: "https://imgs.search.brave.com/3Ek8ZJ3v25qa9CrYaE8DbwG4V78Tp51V2U9nzESHKNc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvNjk5/OTI5Ny5qcGc",
+                    }}
+                  />
+                </View>
+              </Pressable>
+
+              <Pressable
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 12,
+                  backgroundColor: "white",
+                  padding: 9,
+                  borderRadius: 20,
+                  height: 42,
+                  width: 300,
+                }}
+              >
+                <AntDesign name="search1" size={20} color="black" />
+                <TextInput
+                  placeholder="Search"
+                  placeholderTextColor={"black"}
+                  style={{ fontWeight: "500", color: "black" }}
+                />
+              </Pressable>
+            </Pressable>
+          ),
+
+          // headerRight: () => (
+          //   <View
+          //     style={{ flexDirection: "row", justifyContent: "space-between" }}
+          //   >
+          //     <Link
+          //       href={{ pathname: "vouchers", params: { name: "Vouchers" } }}
+          //     >
+          //       <Avatar
+          //         size={40}
+          //         rounded
+          //         source={{
+          //           uri: "https://randomuser.me/api/portraits/men/36.jpg",
+          //         }}
+          //       />
+          //     </Link>
+          //   </View>
+          // ),
+        }}
+      ></Stack.Screen>
       <View style={{ alignItems: "center" }}>
-        <Pressable
+        {/* <Pressable
           style={{
             marginHorizontal: 10,
             flexDirection: "row",
@@ -72,7 +163,12 @@ const Voucher = () => {
           }}
         >
           <Pressable>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
               <Image
                 style={{
                   width: 40,
@@ -84,14 +180,6 @@ const Voucher = () => {
                   uri: "https://imgs.search.brave.com/3Ek8ZJ3v25qa9CrYaE8DbwG4V78Tp51V2U9nzESHKNc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvNjk5/OTI5Ny5qcGc",
                 }}
               />
-              <Text
-                style={{
-                  marginLeft: 10,
-                  fontSize: 20,
-                  fontWeight: "bold",
-                  color: "white",
-                }}
-              ></Text>
             </View>
           </Pressable>
 
@@ -114,7 +202,7 @@ const Voucher = () => {
               style={{ fontWeight: "500", color: "black" }}
             />
           </Pressable>
-        </Pressable>
+        </Pressable> */}
 
         <View style={{ height: 20 }}></View>
 
@@ -123,10 +211,63 @@ const Voucher = () => {
             flexDirection: "row",
             alignItems: "center",
             backgroundColor: "white",
-            borderRadius: 15,
+            borderRadius: 18,
+            borderColor: "black",
+            borderWidth: 2,
           }}
         >
           <Pressable
+            style={[
+              styles.voucherTab,
+
+              activeTab === "Active" && styles.activeVoucherTab,
+            ]}
+            onPress={() => handleTabPress("Active")}
+          >
+            <Text
+              style={[
+                styles.voucherTabText,
+                activeTab === "Active" && styles.activeVoucherTabText,
+              ]}
+            >
+              Active
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={[
+              styles.voucherTab,
+              activeTab === "Redeemed" && styles.activeVoucherTab,
+            ]}
+            onPress={() => handleTabPress("Redeemed")}
+          >
+            <Text
+              style={[
+                styles.voucherTabText,
+                activeTab === "Redeemed" && styles.activeVoucherTabText,
+              ]}
+            >
+              Redeemed
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={[
+              styles.voucherTab,
+              activeTab === "Expired" && styles.activeVoucherTab,
+            ]}
+            onPress={() => handleTabPress("Expired")}
+          >
+            <Text
+              style={[
+                styles.voucherTabText,
+                activeTab === "Expired" && styles.activeVoucherTabText,
+              ]}
+            >
+              Expired
+            </Text>
+          </Pressable>
+          {/* <Pressable
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -193,7 +334,7 @@ const Voucher = () => {
             >
               Expired
             </Text>
-          </Pressable>
+          </Pressable> */}
         </View>
 
         <View style={{ height: 25 }}></View>
@@ -218,7 +359,7 @@ const Voucher = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 10 }}
           >
-            <Pressable
+            {/* <Pressable
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -302,7 +443,6 @@ const Voucher = () => {
               </Text>
             </Pressable>
 
-            {/* Add one more option */}
             <Pressable
               style={{
                 flexDirection: "row",
@@ -357,6 +497,93 @@ const Voucher = () => {
               >
                 Bank
               </Text>
+            </Pressable> */}
+
+            <Pressable
+              style={[
+                styles.filterOption,
+                activeFilter === "Agriculture" && styles.activeFilterOption,
+              ]}
+              onPress={() => handleFilterPress("Agriculture")}
+            >
+              <Text
+                style={[
+                  styles.filterOptionText,
+                  activeFilter === "Agriculture" &&
+                    styles.activeFilterOptionText,
+                ]}
+              >
+                Agriculture
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={[
+                styles.filterOption,
+                activeFilter === "Travel" && styles.activeFilterOption,
+              ]}
+              onPress={() => handleFilterPress("Travel")}
+            >
+              <Text
+                style={[
+                  styles.filterOptionText,
+                  activeFilter === "Travel" && styles.activeFilterOptionText,
+                ]}
+              >
+                Travel
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={[
+                styles.filterOption,
+                activeFilter === "Health Care" && styles.activeFilterOption,
+              ]}
+              onPress={() => handleFilterPress("Health Care")}
+            >
+              <Text
+                style={[
+                  styles.filterOptionText,
+                  activeFilter === "Health Care" &&
+                    styles.activeFilterOptionText,
+                ]}
+              >
+                Health Care
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={[
+                styles.filterOption,
+                activeFilter === "Education" && styles.activeFilterOption,
+              ]}
+              onPress={() => handleFilterPress("Education")}
+            >
+              <Text
+                style={[
+                  styles.filterOptionText,
+                  activeFilter === "Education" && styles.activeFilterOptionText,
+                ]}
+              >
+                Education
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={[
+                styles.filterOption,
+                activeFilter === "Banking" && styles.activeFilterOption,
+              ]}
+              onPress={() => handleFilterPress("Banking")}
+            >
+              <Text
+                style={[
+                  styles.filterOptionText,
+                  activeFilter === "Banking" && styles.activeFilterOptionText,
+                ]}
+              >
+                Banking
+              </Text>
             </Pressable>
           </ScrollView>
         </View>
@@ -403,6 +630,7 @@ const Voucher = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    backgroundColor: "#FFF",
   },
   card: {
     flex: 1,
@@ -427,6 +655,124 @@ const styles = StyleSheet.create({
   text: {
     color: "black",
     fontSize: 16,
+  },
+  header: {
+    marginHorizontal: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 9,
+    gap: 12,
+  },
+  userInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  userImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    resizeMode: "cover",
+  },
+  userName: {
+    marginLeft: 10,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+  },
+  searchBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    backgroundColor: "white",
+    padding: 9,
+    borderRadius: 20,
+    height: 42,
+    width: 300,
+  },
+  voucherTabs: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "white",
+    borderRadius: 15,
+    borderColor: "black",
+  },
+  voucherTab: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 9,
+    borderRadius: 15,
+    height: 55,
+    width: 100,
+  },
+  activeVoucherTab: {
+    backgroundColor: "black",
+  },
+  voucherTabText: {
+    alignSelf: "center",
+  },
+  activeVoucherTabText: {
+    color: "white",
+  },
+
+  filtersContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "gray",
+    height: 55,
+    width: "100%",
+  },
+  filtersScrollView: {
+    paddingHorizontal: 10,
+  },
+  filterOption: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    padding: 4,
+    borderRadius: 10,
+    marginRight: 10,
+    width: 100,
+    flex: 1,
+    borderColor: "black",
+    borderWidth: 1,
+  },
+  activeFilterOption: {
+    backgroundColor: "black",
+  },
+  filterOptionText: {
+    marginLeft: 5,
+    fontSize: 10,
+  },
+  activeFilterOptionText: {
+    color: "white",
+  },
+  container: {
+    padding: 10,
+  },
+  card: {
+    flex: 1,
+    margin: 10,
+    borderRadius: 10,
+    backgroundColor: "white",
+    height: 200,
+    aspectRatio: 1,
+    // borderColor: "black",
+    // borderWidth: 1,
+  },
+  imageContainer: {
+    flex: 1,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+  },
+  textContainer: {
+    padding: 10,
   },
 });
 
