@@ -10,7 +10,7 @@ function LogoTitle() {
   );
 }
 
-export default function Home() {
+export default function Index() {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Stack.Screen

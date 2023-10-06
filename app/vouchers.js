@@ -11,7 +11,7 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -65,6 +65,8 @@ const Voucher = () => {
   if (dummyData.length % numColumns === 1) {
     dummyData.push({ id: "empty", empty: true });
   }
+
+  const params = useLocalSearchParams();
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1 }}>
@@ -131,79 +133,9 @@ const Voucher = () => {
               </Pressable>
             </Pressable>
           ),
-
-          // headerRight: () => (
-          //   <View
-          //     style={{ flexDirection: "row", justifyContent: "space-between" }}
-          //   >
-          //     <Link
-          //       href={{ pathname: "vouchers", params: { name: "Vouchers" } }}
-          //     >
-          //       <Avatar
-          //         size={40}
-          //         rounded
-          //         source={{
-          //           uri: "https://randomuser.me/api/portraits/men/36.jpg",
-          //         }}
-          //       />
-          //     </Link>
-          //   </View>
-          // ),
         }}
       ></Stack.Screen>
       <View style={{ alignItems: "center" }}>
-        {/* <Pressable
-          style={{
-            marginHorizontal: 10,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: 9,
-            gap: 12,
-          }}
-        >
-          <Pressable>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  resizeMode: "cover",
-                }}
-                source={{
-                  uri: "https://imgs.search.brave.com/3Ek8ZJ3v25qa9CrYaE8DbwG4V78Tp51V2U9nzESHKNc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvNjk5/OTI5Ny5qcGc",
-                }}
-              />
-            </View>
-          </Pressable>
-
-          <Pressable
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 12,
-              backgroundColor: "white",
-              padding: 9,
-              borderRadius: 20,
-              height: 42,
-              width: 300,
-            }}
-          >
-            <AntDesign name="search1" size={20} color="black" />
-            <TextInput
-              placeholder="Search"
-              placeholderTextColor={"black"}
-              style={{ fontWeight: "500", color: "black" }}
-            />
-          </Pressable>
-        </Pressable> */}
-
         <View style={{ height: 20 }}></View>
 
         <View
@@ -359,146 +291,6 @@ const Voucher = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 10 }}
           >
-            {/* <Pressable
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                backgroundColor: activeTab === "Option1" ? "black" : "white",
-                padding: 4,
-                borderRadius: 10,
-                marginRight: 10,
-                flex: 1, // Use flex to take the entire width
-              }}
-              onPress={() => handleTabPress("Option1")}
-            >
-              {activeTab === "Option1" ? (
-                <Ionicons name="radio-button-on" size={14} color="white" />
-              ) : (
-                <Ionicons name="radio-button-off" size={14} color="black" />
-              )}
-              <Text
-                style={{
-                  color: activeTab === "Option1" ? "white" : "black",
-                  marginLeft: 5,
-                  fontSize: 10,
-                }}
-              >
-                Agriculture
-              </Text>
-            </Pressable>
-
-            <Pressable
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                backgroundColor: activeTab === "Option2" ? "black" : "white",
-                padding: 8,
-                borderRadius: 10,
-                marginRight: 10,
-                flex: 1, // Use flex to take the entire width
-              }}
-              onPress={() => handleTabPress("Option2")}
-            >
-              {activeTab === "Option2" ? (
-                <Ionicons name="radio-button-on" size={14} color="white" />
-              ) : (
-                <Ionicons name="radio-button-off" size={14} color="black" />
-              )}
-              <Text
-                style={{
-                  color: activeTab === "Option2" ? "white" : "black",
-                  marginLeft: 5,
-                  fontSize: 10,
-                }}
-              >
-                Travel
-              </Text>
-            </Pressable>
-
-            <Pressable
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                backgroundColor: activeTab === "Option3" ? "black" : "white",
-                padding: 8,
-                borderRadius: 10,
-                marginRight: 10,
-                flex: 1, // Use flex to take the entire width
-              }}
-              onPress={() => handleTabPress("Option3")}
-            >
-              {activeTab === "Option3" ? (
-                <Ionicons name="radio-button-on" size={14} color="white" />
-              ) : (
-                <Ionicons name="radio-button-off" size={14} color="black" />
-              )}
-              <Text
-                style={{
-                  color: activeTab === "Option3" ? "white" : "black",
-                  marginLeft: 5,
-                  fontSize: 10,
-                }}
-              >
-                Health Care
-              </Text>
-            </Pressable>
-
-            <Pressable
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                backgroundColor: activeTab === "Option4" ? "black" : "white",
-                padding: 8,
-                borderRadius: 10,
-                marginRight: 10,
-                flex: 1, // Use flex to take the entire width
-              }}
-              onPress={() => handleTabPress("Option4")}
-            >
-              {activeTab === "Option4" ? (
-                <Ionicons name="radio-button-on" size={14} color="white" />
-              ) : (
-                <Ionicons name="radio-button-off" size={14} color="black" />
-              )}
-              <Text
-                style={{
-                  color: activeTab === "Option4" ? "white" : "black",
-                  marginLeft: 5,
-                  fontSize: 10,
-                }}
-              >
-                Education
-              </Text>
-            </Pressable>
-
-            <Pressable
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                backgroundColor: activeTab === "Option5" ? "black" : "white",
-                padding: 8,
-                borderRadius: 10,
-
-                flex: 1, // Use flex to take the entire width
-              }}
-              onPress={() => handleTabPress("Option4")}
-            >
-              {activeTab === "Option5" ? (
-                <Ionicons name="radio-button-on" size={14} color="white" />
-              ) : (
-                <Ionicons name="radio-button-off" size={14} color="black" />
-              )}
-              <Text
-                style={{
-                  color: activeTab === "Option5" ? "white" : "black",
-                  marginLeft: 5,
-                  fontSize: 10,
-                }}
-              >
-                Bank
-              </Text>
-            </Pressable> */}
-
             <Pressable
               style={[
                 styles.filterOption,
