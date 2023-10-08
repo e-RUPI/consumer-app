@@ -35,7 +35,7 @@ const Schemes = [
   },
 ];
 
-export default function home() {
+export default function Home() {
   const router = useRouter();
   const params = useLocalSearchParams();
 
