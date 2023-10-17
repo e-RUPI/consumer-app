@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -20,25 +20,58 @@ import { Card, Divider, Button } from "@rneui/base";
 import coupon from "../assets/images/coupon.png";
 import next from "../assets/images/next.png";
 import { Avatar, Icon } from "@rneui/themed";
+import axios from "axios";
 
-const SchemesData = [
-  {
-    name: "Ministry of Health and Family Welfare - Ayushman Bharat Yojana",
-    content: "Explore Health Schemes for you and your family",
-  },
-  {
-    name: "Department of Agriculture & Farmers Welfare",
-    content: "Crop Insurance, Farm Equipment, etc.",
-  },
-  {
-    name: "Ministry of Education",
-    content: "School, College, Coaching, etc.",
-  },
-];
+// const getSchemesData = async () => {
+//   try {
+//     const response = await axios.get(`https://erupi.vercel.app/api/schemes`);
+//     console.log("Response: ", response.data);
+//     setSchemesData(response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error fetching user data:", error);
+//     throw error;
+//   }
+// };
+
+// const SchemesData = await getSchemesData();
+// console.log("SchemesData: ", SchemesData);
+// const SchemesData = [
+//   {
+//     name: "Ministry of Health and Family Welfare - Ayushman Bharat Yojana",
+//     content: "Explore Health Schemes for you and your family",
+//   },
+//   {
+//     name: "Department of Agriculture & Farmers Welfare",
+//     content: "Crop Insurance, Farm Equipment, etc.",
+//   },
+//   {
+//     name: "Ministry of Education",
+//     content: "School, College, Coaching, etc.",
+//   },
+// ];
 
 const Schemes = () => {
   const [activeTab, setActiveTab] = useState("Active");
   const [activeFilter, setActiveFilter] = useState(null); // Store the active filter
+  const [SchemesData, setSchemesData] = useState([]);
+
+  useEffect(() => {
+    const getSchemesData = async () => {
+      try {
+        const response = await axios.get(
+          `https://erupi.vercel.app/api/schemes`
+        );
+        console.log("Response: ", response.data);
+        setSchemesData(response.data);
+        // return response.data;
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        throw error;
+      }
+    };
+    getSchemesData();
+  }, []);
 
   const handleTabPress = (tabName) => {
     setActiveTab(tabName);
@@ -243,38 +276,7 @@ const Schemes = () => {
           </View>
         </View>
         <View style={{ height: 20 }}></View>
-        {/* VOUCHERS */}
 
-        {/* {SchemesData.map((item, index) => (
-        <Card borderRadius={10} key={index}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Image source={coupon} style={{ width: 50, height: 50 }} />
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginLeft: 10,
-              }}
-            >
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                {item.name}
-              </Text>
-            </View>
-          </View>
-
-          <Divider marginTop={10} marginBottom={10} />
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <View style={{ flex: 1 }}>
-              <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-                {item.content}
-              </Text>
-            </View>
-            <Image source={next} style={{ width: 30, height: 30 }} />
-          </View>
-        </Card>
-      ))} */}
         <View>
           {SchemesData.map((item, index) => (
             <Card
