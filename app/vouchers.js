@@ -10,8 +10,11 @@ import {
   TextInput,
   FlatList,
   Dimensions,
+  Modal,
+  TouchableOpacity,
 } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -20,31 +23,42 @@ const dummyData = [
     id: "1",
     imageUrl:
       "https://th.bing.com/th/id/OIP.4siKIW3oZ4kEo0vkEVQ5hgHaLH?pid=ImgDet&rs=1",
-    text: "Some Text Goes Here 1",
+    text: "Agriculture",
+    title: "Amit Seeds and Tools",
+    product: "Fertilizers",
+    amount: "1000",
+    date: "Valid till 29/09/23",
+    footerText: "Agriculture insurance company of India",
   },
   {
     id: "2",
     imageUrl:
       "https://th.bing.com/th/id/OIP.4siKIW3oZ4kEo0vkEVQ5hgHaLH?pid=ImgDet&rs=1",
-    text: "Some Text Goes Here 2",
+    text: "Education",
+    title: " Merit Scholarship",
+    product: "Scholarship",
+    amount: "50000",
+    date: "Valid till 19/12/24",
+    footerText: " National Merit Scholarship of India",
   },
   {
     id: "3",
     imageUrl:
       "https://th.bing.com/th/id/OIP.4siKIW3oZ4kEo0vkEVQ5hgHaLH?pid=ImgDet&rs=1",
-    text: "Some Text Goes Here 3",
+    text: "Health Care",
+    title: " Health Care Insurance",
+    product: "Kidney",
+    amount: "150000",
+    date: "Valid till 19/12/24",
+    footerText: " National Merit Scholarship of India",
   },
-  //   {
-  //     id: "4",
-  //     imageUrl:
-  //       "https://th.bing.com/th/id/OIP.4siKIW3oZ4kEo0vkEVQ5hgHaLH?pid=ImgDet&rs=1",
-  //     text: "Some Text Goes Here 4",
-  //   },
-  // Add more data as needed
+  
 ];
 
 const Voucher = () => {
   const [activeTab, setActiveTab] = useState("Active");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [activeFilter, setActiveFilter] = useState(null); // Store the active filter
 
   const handleTabPress = (tabName) => {
@@ -52,10 +66,15 @@ const Voucher = () => {
     // Reset the active filter when changing voucher types
     setActiveFilter(null);
   };
+ 
+  
 
   const handleFilterPress = (filterName) => {
     setActiveFilter(filterName);
   };
+
+
+  
 
   const numColumns = 2; // Number of columns
   const screenWidth = Dimensions.get("window").width; // Get the screen width
@@ -66,7 +85,15 @@ const Voucher = () => {
     dummyData.push({ id: "empty", empty: true });
   }
 
-  const params = useLocalSearchParams();
+  const openModal = (item) => {
+    setSelectedItem(item);
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setSelectedItem(null);
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1 }}>
@@ -128,14 +155,18 @@ const Voucher = () => {
                 <TextInput
                   placeholder="Search"
                   placeholderTextColor={"black"}
-                  style={{ fontWeight: "500", color: "black" }}
+                  style={{ fontWeight: "500", color: "white", }}
                 />
               </Pressable>
             </Pressable>
           ),
+
+          
         }}
       ></Stack.Screen>
       <View style={{ alignItems: "center" }}>
+        
+
         <View style={{ height: 20 }}></View>
 
         <View
@@ -199,74 +230,7 @@ const Voucher = () => {
               Expired
             </Text>
           </Pressable>
-          {/* <Pressable
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: activeTab === "Active" ? "black" : "white",
-              padding: 9,
-              borderRadius: 15,
-              height: 55,
-              width: 100,
-            }}
-            onPress={() => handleTabPress("Active")}
-          >
-            <Text
-              style={{
-                color: activeTab === "Active" ? "white" : "black",
-                alignSelf: "center", // Center the text vertically within the Pressable
-              }}
-            >
-              Active
-            </Text>
-          </Pressable>
-
-          <Pressable
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: activeTab === "Redeemed" ? "black" : "white",
-              padding: "9px",
-              borderRadius: 15,
-              height: 55,
-              width: 110,
-            }}
-            onPress={() => handleTabPress("Redeemed")}
-          >
-            <Text
-              style={{
-                color: activeTab === "Redeemed" ? "white" : "black",
-                alignSelf: "center", // Center the text vertically within the Pressable
-              }}
-            >
-              Redeemed
-            </Text>
-          </Pressable>
-
-          <Pressable
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: activeTab === "Expired" ? "black" : "white",
-              padding: 9,
-              borderRadius: 15,
-              height: 55,
-              width: 110,
-            }}
-            onPress={() => handleTabPress("Expired")}
-          >
-            <Text
-              style={{
-                color: activeTab === "Expired" ? "white" : "black",
-                // alignSelf: "center", // Center the text vertically within the Pressable
-              }}
-            >
-              Expired
-            </Text>
-          </Pressable> */}
+          
         </View>
 
         <View style={{ height: 25 }}></View>
@@ -291,13 +255,17 @@ const Voucher = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 10 }}
           >
+            
+
             <Pressable
               style={[
                 styles.filterOption,
                 activeFilter === "Agriculture" && styles.activeFilterOption,
               ]}
               onPress={() => handleFilterPress("Agriculture")}
+              
             >
+              
               <Text
                 style={[
                   styles.filterOptionText,
@@ -397,7 +365,7 @@ const Voucher = () => {
           }
 
           return (
-            <Pressable style={styles.card}>
+            <Pressable style={styles.card} onPress={() => openModal(item)}>
               {/* Image Portion */}
               <View style={styles.imageContainer}>
                 <Image
@@ -415,6 +383,95 @@ const Voucher = () => {
           );
         }}
       />
+
+      {/* Modal */}
+      <Modal
+  animationType="fade"
+  transparent={true}
+  visible={isModalVisible}
+  onRequestClose={closeModal}
+>
+  <View style={styles.modalContainer}>
+    <LinearGradient
+      colors={activeTab === "Expired"
+      ? ["#000000", "white"] : activeFilter === "Agriculture"
+      ? ["#10C71C", "white"] : activeFilter === "Travel"
+      ? ["#39E4F4", "white"] : activeFilter === "Health Care"
+      ? ["#F02B24", "white"]  : activeFilter === "Education"
+      ? ["#B842F4", "white"]
+      : ["#FAF462", "white"]} //default
+      style={styles.modalContent}
+    >
+      <TouchableOpacity
+        style={styles.closeButton}
+        onPress={closeModal}
+      >
+        <AntDesign name="closecircleo" size={24} color={activeTab==="Expired"?"red":"black"} />
+      </TouchableOpacity>
+
+      {/* Header */}
+      <View style={styles.modalHeader}>
+        <Text style={styles.modalHeaderText}>{selectedItem?.text}</Text>
+      </View>
+
+      {/* QR Code */}
+      <View style={styles.qrCodeContainer}>
+        {/* You can place your QR code component here */}
+        {/* Example: <Image source={qrCodeImage} style={styles.qrCode} /> */}
+        <Image
+          source={{
+            uri: "https://imgs.search.brave.com/tRpS-KeocWolddcsJM6nQKGT1akkCXOvxtg25TYK8FE/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTM5/ODE1MjIwMy9waG90/by9kYXRhLWxhYmVs/aW5nLXF1aWNrLXJl/c3BvbnNlLWNvZGUu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PW9DeWhSYU9oYUpH/ZVJXeFJIblBvWm9Z/RVhkYzBaVGpaZk1U/aTRpMEJoN2c9",
+          }}
+          style={styles.qrCode}
+        />
+      </View>
+
+      {/* Title */}
+      <Text style={styles.titleText}>
+              {selectedItem?.title || "Title Not Available"}
+            </Text>
+
+      {/* Additional Text */}
+      <Text
+        style={{
+          fontSize: 20,
+          fontWeight: "bold",
+          textAlign: "center",
+          marginBottom: 5,
+        }}
+      >
+        {selectedItem?.product || "Product Not Available"}
+      </Text>
+      <Text
+        style={{
+          fontSize: 30,
+          fontWeight: "bold",
+          textAlign: "center",
+          marginBottom: 5,
+        }}
+      >
+        ₹{selectedItem?.amount || "Amount Not Available"}
+      </Text>
+      <Text
+        style={{
+          fontSize: activeTab === "Expired" ? 25 : 15,
+          // fontWeight: "bold",
+          textAlign: activeTab === "Redeemed" ? "left" : "center",
+          marginBottom: 5,
+          color: activeTab === "Expired" ? "red" : activeTab === "Redeemed" ? "red" : "black",
+        }}
+      >
+        {activeTab === "Expired" ? "Expired" : activeTab === "Redeemed" ? "Transacton id: 1234567" : selectedItem?.date || "Title Not Available"}
+      </Text>
+
+      {/* Footer Text */}
+      <Text style={styles.footerText}>
+              {selectedItem?.footerText || "Footer Not Available"}
+            </Text>
+    </LinearGradient>
+  </View>
+</Modal>
+
     </SafeAreaView>
   );
 };
@@ -566,6 +623,89 @@ const styles = StyleSheet.create({
   textContainer: {
     padding: 10,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    // alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    paddingVertical: 20,
+    borderRadius: 10,
+    elevation: 5,
+    marginHorizontal:24,
+    alignItems: "center",
+
+    // width: "100%"
+  },
+  modalImage: {
+    width: 300,
+    height: 300,
+    borderRadius: 10,
+    paddingHorizontal:20,
+  },
+  modalText: {
+    fontSize: 18,
+    paddingHorizontal:20,
+    marginVertical: 16,
+  },
+  modalHeader: {
+    backgroundColor: "grey",
+    width: "100%",
+    alignItems: "center",
+    paddingVertical: 10,
+    marginTop: 40,
+  },
+
+  modalHeaderText: {
+    color: "white",
+    // width:300,
+    fontSize: 20,
+    paddingHorizontal:20,
+    fontWeight: "bold",
+    backgroundColor: "grey",
+  },
+  qrCodeContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal:20,
+    marginVertical: 0,
+    marginTop: 30,
+  },
+  titleText: {
+    fontSize: 18,
+    textAlign: "center",
+    paddingHorizontal:20,
+    marginBottom: 40,
+  },
+  additionalText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 5,
+  },
+  footerText: {
+    fontSize: 14,
+    textAlign: "center",
+    paddingHorizontal:20,
+    marginTop: 30,
+    // marginBottom: 10,
+  },
+  qrCode: {
+    // Style the QR code image here
+    width: 250, // Set the width and height as needed
+    height: 250,
+    // Add any additional styles you require for the QR code
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1, // To ensure the button appears above other content
+    padding: 10,
+  },
+  
 });
 
 export default Voucher;
