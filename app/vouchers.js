@@ -59,14 +59,14 @@ const Voucher = () => {
   const [activeTab, setActiveTab] = useState("Active");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [activeFilter, setActiveFilter] = useState(null); // Store the active filter
+  const [activeFilter, setActiveFilter] = useState("") // Store the active filter
   const [vouchersData, setVouchersData] = useState([]);
 
   useEffect(() => {
     const getVouchersData = async () => {
       try {
         const response = await axios.get(
-          `https://erupi.vercel.app/api/vouchers`
+          `https://erupi.vercel.app/api/vouchers?status=${activeTab}`
         );
         console.log("Vouchers Response: ", response.data);
         setVouchersData(response.data);
@@ -77,7 +77,7 @@ const Voucher = () => {
       }
     };
     getVouchersData();
-  }, []);
+  }, [activeTab]);
 
   const mccImageMapping = {
     4225: "https://imgs.search.brave.com/HnzYo6gwiUeB3CmjVYEwdcepUGnmUXQ0fVJ9ldlWWfA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzg1LzM1LzIy/LzM2MF9GXzI4NTM1/MjI1OV9hNDZ6Q0JW/MWl0TmNYTFE5QWJZ/bmxjRTdGSUpMNUpO/Vi5qcGc",
@@ -125,7 +125,11 @@ const Voucher = () => {
 
   // If there's an odd number of cards, add an empty item
   if (filteredVouchers.length % numColumns === 1) {
-    filteredVouchers.push({ id: "empty", empty: true });
+    // Generate a unique key for the empty item
+const emptyKey = "empty_" + Math.random().toString(36).substring(7);
+
+// Push the empty item with the generated key
+filteredVouchers.push({ id: emptyKey, empty: true });
   }
 
   const openModal = (item) => {
@@ -408,7 +412,7 @@ const Voucher = () => {
 
       <FlatList
         data={filteredVouchers}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         numColumns={numColumns}
         contentContainerStyle={styles.container}
         renderItem={({ item }) => {
@@ -509,7 +513,7 @@ const Voucher = () => {
                 marginBottom: 5,
               }}
             >
-              {selectedItem?.purpose || "Product Not Available"}
+              {selectedItem?.status || "Product Not Available"}
             </Text>
             <Text
               style={{
