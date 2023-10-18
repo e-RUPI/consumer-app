@@ -74,6 +74,15 @@ const Schemes = () => {
     getSchemesData();
   }, []);
 
+
+  const mccImageMapping = {
+    4225: "https://imgs.search.brave.com/HnzYo6gwiUeB3CmjVYEwdcepUGnmUXQ0fVJ9ldlWWfA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzg1LzM1LzIy/LzM2MF9GXzI4NTM1/MjI1OV9hNDZ6Q0JW/MWl0TmNYTFE5QWJZ/bmxjRTdGSUpMNUpO/Vi5qcGc",
+    8299: "https://imgs.search.brave.com/uxn2uoLhYKZMhPE2h5z-AZvBRsu_4az6OalxnLdIdZM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNTE1/MjYyMzIwL3Bob3Rv/L2VsZW1lbnRhcnkt/c2Nob29sLWdpcmwt/YXQtdGhlLWZyb250/LW9mLXRoZS1zY2hv/b2wtYnVzLXF1ZXVl/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz01SWxQbk9VSGpE/TjBtS2UzLWdYd0Yt/aDVwY0lmWWpXdjFz/b2wyVzNydzUwPQ",
+    8062: "https://imgs.search.brave.com/VyCdsnmf9eJ4xlZGV4lFeK5QhWJFjiBNukX7l6RG984/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzc4Lzk4LzU2/LzM2MF9GXzI3ODk4/NTYyOV9Td1lQUzJC/ZmtxWVlHSU5jZzBn/QjNLRzdnUXVSdkFJ/RS5qcGc",
+    4722: "https://imgs.search.brave.com/4vEPfTEgriP-yELgiZutLTweR6wMBOCKBrAIEeuXMKk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTI1/MTU4NzE3Mi9waG90/by90cmF2ZWwtY29u/Y2VwdC1vbi1ibHVl/LWJhY2tncm91bmQu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PW1sbG9VZExJelI2/ZEQ3SkUwWVBOT2xZ/bmFIanZjZFMzTmtP/U2UzNXJ2cU09",
+    5912: "https://imgs.search.brave.com/rj6LxtVfbGOwbSgcZ7l6mVleuNvaRDljEqe9oWOha3U/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9jZG4u/YnJpdGFubmljYS5j/b20vMzAvMTMwODMw/LTA1MC02RDg4MDYw/Qi9UdW1zLWNhbGNp/dW0tY2FyYm9uYXRl/LWluZ3JlZGllbnQu/anBnP3c9MjAwJmg9/MjAwJmM9Y3JvcA",
+  };
+
   const mccMappings = {
     Agriculture: 4225,
     Pharmaceutical: 5912,
@@ -306,9 +315,10 @@ const Schemes = () => {
               }}
               key={index}
             >
+              
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
-                  source={coupon}
+                  source={{ uri: mccImageMapping[item.mcc] }}
                   style={{
                     width: 50,
                     height: 50,
