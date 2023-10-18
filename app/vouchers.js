@@ -79,6 +79,36 @@ const Voucher = () => {
     getVouchersData();
   }, []);
 
+  const mccImageMapping = {
+    4225: "https://imgs.search.brave.com/HnzYo6gwiUeB3CmjVYEwdcepUGnmUXQ0fVJ9ldlWWfA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzg1LzM1LzIy/LzM2MF9GXzI4NTM1/MjI1OV9hNDZ6Q0JW/MWl0TmNYTFE5QWJZ/bmxjRTdGSUpMNUpO/Vi5qcGc",
+    8299: "https://imgs.search.brave.com/uxn2uoLhYKZMhPE2h5z-AZvBRsu_4az6OalxnLdIdZM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNTE1/MjYyMzIwL3Bob3Rv/L2VsZW1lbnRhcnkt/c2Nob29sLWdpcmwt/YXQtdGhlLWZyb250/LW9mLXRoZS1zY2hv/b2wtYnVzLXF1ZXVl/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz01SWxQbk9VSGpE/TjBtS2UzLWdYd0Yt/aDVwY0lmWWpXdjFz/b2wyVzNydzUwPQ",
+    8062: "https://imgs.search.brave.com/VyCdsnmf9eJ4xlZGV4lFeK5QhWJFjiBNukX7l6RG984/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzc4Lzk4LzU2/LzM2MF9GXzI3ODk4/NTYyOV9Td1lQUzJC/ZmtxWVlHSU5jZzBn/QjNLRzdnUXVSdkFJ/RS5qcGc",
+    4722: "https://imgs.search.brave.com/4vEPfTEgriP-yELgiZutLTweR6wMBOCKBrAIEeuXMKk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTI1/MTU4NzE3Mi9waG90/by90cmF2ZWwtY29u/Y2VwdC1vbi1ibHVl/LWJhY2tncm91bmQu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PW1sbG9VZExJelI2/ZEQ3SkUwWVBOT2xZ/bmFIanZjZFMzTmtP/U2UzNXJ2cU09",
+    5912: "https://imgs.search.brave.com/rj6LxtVfbGOwbSgcZ7l6mVleuNvaRDljEqe9oWOha3U/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9jZG4u/YnJpdGFubmljYS5j/b20vMzAvMTMwODMw/LTA1MC02RDg4MDYw/Qi9UdW1zLWNhbGNp/dW0tY2FyYm9uYXRl/LWluZ3JlZGllbnQu/anBnP3c9MjAwJmg9/MjAwJmM9Y3JvcA",
+  };
+
+  const mccToHeaderMapping = {
+    4225: "AGRICULTURE",
+    5912: "PHARMACEUTICAL",
+    4722: "TRAVEL",
+    8299: "EDUCATION",
+    8062: "HEALTHCARE",
+  };
+
+  const mccForFilter = {
+    Agriculture: 4225,
+    Pharmaceutical: 5912,
+    Travel: 4722,
+    Education: 8299,
+    Healthcare: 8062,
+  };
+
+  const filteredVouchers = activeFilter
+    ? vouchersData.filter(
+        (voucher) => voucher.mcc === mccForFilter[activeFilter]
+      )
+    : vouchersData;
+
   const handleTabPress = (tabName) => {
     setActiveTab(tabName);
     // Reset the active filter when changing voucher types
@@ -94,8 +124,8 @@ const Voucher = () => {
   const cardWidth = (screenWidth - 20) / numColumns - 20; // Calculate the card width with spacing
 
   // If there's an odd number of cards, add an empty item
-  if (dummyData.length % numColumns === 1) {
-    dummyData.push({ id: "empty", empty: true });
+  if (filteredVouchers.length % numColumns === 1) {
+    filteredVouchers.push({ id: "empty", empty: true });
   }
 
   const openModal = (item) => {
@@ -106,6 +136,26 @@ const Voucher = () => {
   const closeModal = () => {
     setIsModalVisible(false);
     setSelectedItem(null);
+  };
+
+  const getDaysRemaining = (expiryDate) => {
+    if (!expiryDate) {
+      return null;
+    }
+
+    // Convert the expiry date string to a Date object
+    const expiry = new Date(expiryDate);
+
+    // Get the current date
+    const currentDate = new Date();
+
+    // Calculate the time difference in milliseconds
+    const timeDifference = expiry - currentDate;
+
+    // Calculate the remaining days
+    const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    return daysRemaining;
   };
 
   return (
@@ -336,17 +386,18 @@ const Voucher = () => {
             <Pressable
               style={[
                 styles.filterOption,
-                activeFilter === "Banking" && styles.activeFilterOption,
+                activeFilter === "Pharmaceutical" && styles.activeFilterOption,
               ]}
-              onPress={() => handleFilterPress("Banking")}
+              onPress={() => handleFilterPress("Pharmaceutical")}
             >
               <Text
                 style={[
                   styles.filterOptionText,
-                  activeFilter === "Banking" && styles.activeFilterOptionText,
+                  activeFilter === "Pharmaceutical" &&
+                    styles.activeFilterOptionText,
                 ]}
               >
-                Banking
+                Pharmaceutical
               </Text>
             </Pressable>
           </ScrollView>
@@ -356,7 +407,7 @@ const Voucher = () => {
       {/* VOUCHERS */}
 
       <FlatList
-        data={dummyData}
+        data={filteredVouchers}
         keyExtractor={(item) => item.id}
         numColumns={numColumns}
         contentContainerStyle={styles.container}
@@ -368,12 +419,16 @@ const Voucher = () => {
             );
           }
 
+          // Determine the image URL based on the MCC code
+          const mccCode = item.mcc; // Assuming "mcc" is the property in your data
+          const imageUrl = mccImageMapping[mccCode];
+
           return (
             <Pressable style={styles.card} onPress={() => openModal(item)}>
               {/* Image Portion */}
               <View style={styles.imageContainer}>
                 <Image
-                  source={{ uri: item.imageUrl }}
+                  source={{ uri: imageUrl }}
                   style={styles.image}
                   resizeMode="cover"
                 />
@@ -381,7 +436,7 @@ const Voucher = () => {
 
               {/* Text Portion */}
               <View style={styles.textContainer}>
-                <Text style={styles.text}>{item.text}</Text>
+                <Text style={styles.text}>{item.purpose}</Text>
               </View>
             </Pressable>
           );
@@ -422,7 +477,10 @@ const Voucher = () => {
 
             {/* Header */}
             <View style={styles.modalHeader}>
-              <Text style={styles.modalHeaderText}>{selectedItem?.text}</Text>
+              <Text style={styles.modalHeaderText}>
+                {mccToHeaderMapping[selectedItem?.mcc] || "Unknown"}{" "}
+                {/* "Unknown" will be shown if there's no mapping */}
+              </Text>
             </View>
 
             {/* QR Code */}
@@ -439,7 +497,7 @@ const Voucher = () => {
 
             {/* Title */}
             <Text style={styles.titleText}>
-              {selectedItem?.title || "Title Not Available"}
+              {/* {selectedItem?.purpose || "Title Not Available"} */}
             </Text>
 
             {/* Additional Text */}
@@ -451,7 +509,7 @@ const Voucher = () => {
                 marginBottom: 5,
               }}
             >
-              {selectedItem?.product || "Product Not Available"}
+              {selectedItem?.purpose || "Product Not Available"}
             </Text>
             <Text
               style={{
@@ -461,7 +519,7 @@ const Voucher = () => {
                 marginBottom: 5,
               }}
             >
-              ₹{selectedItem?.amount || "Amount Not Available"}
+              ₹{selectedItem?.maxAmount || "Amount Not Available"}
             </Text>
             <Text
               style={{
@@ -481,13 +539,34 @@ const Voucher = () => {
                 ? "Expired"
                 : activeTab === "Redeemed"
                 ? "Transacton id: 1234567"
-                : selectedItem?.date || "Title Not Available"}
+                : `Valid till -  ${
+                    selectedItem?.expiry.replace(
+                      /^(\d{4}-\d{2}-\d{2}).*$/,
+                      "$1"
+                    ) || "Title Not Available"
+                  }`}
             </Text>
 
             {/* Footer Text */}
-            <Text style={styles.footerText}>
-              {selectedItem?.footerText || "Footer Not Available"}
-            </Text>
+            <Text
+  style={[
+    styles.footerText,
+    activeTab === "Redeemed" && { color: "black" },
+  ]}
+>
+  {activeTab === "Expired"
+    ? ""
+    : activeTab === "Redeemed"
+    ? `Issued on ${
+        (new Date(selectedItem?.issueDate)).toLocaleDateString() ||
+        "Issue Date Not Available"
+      }`
+    : `Expires in ${
+        getDaysRemaining(selectedItem?.expiry) ||
+        "Title Not Available"
+      } days`}
+</Text>
+
           </LinearGradient>
         </View>
       </Modal>
@@ -709,6 +788,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingHorizontal: 20,
     marginTop: 30,
+    color: "red",
     // marginBottom: 10,
   },
   qrCode: {
