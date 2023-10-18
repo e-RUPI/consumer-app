@@ -10,6 +10,7 @@ import {
   TextInput,
   FlatList,
   Dimensions,
+  Linking
 } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
@@ -72,6 +73,24 @@ const Schemes = () => {
     };
     getSchemesData();
   }, []);
+
+  const mccMappings = {
+    Agriculture: 4225,
+    Pharmaceutical: 5912,
+    Travel: 4722,
+    Education: 8299,
+    HealthCare: 8062,
+  };
+
+
+  const filteredSchemes = SchemesData.filter((scheme) => {
+    if (activeFilter && mccMappings[activeFilter]) {
+      return scheme.mcc === mccMappings[activeFilter];
+    }
+    return true; // Show all schemes if no filter is active
+  });
+  
+  
 
   const handleTabPress = (tabName) => {
     setActiveTab(tabName);
@@ -269,7 +288,7 @@ const Schemes = () => {
                     activeFilter === "Banking" && styles.activeFilterOptionText,
                   ]}
                 >
-                  Banking
+                  Pharmaceutical
                 </Text>
               </Pressable>
             </ScrollView>
@@ -278,7 +297,7 @@ const Schemes = () => {
         <View style={{ height: 20 }}></View>
 
         <View>
-          {SchemesData.map((item, index) => (
+          {filteredSchemes.map((item, index) => (
             <Card
               style={{
                 borderRadius: 10,
@@ -306,7 +325,7 @@ const Schemes = () => {
                   numberOfLines={2} // Limit text to one line
                   ellipsizeMode="tail" // Add an ellipsis (...) for overflow
                 >
-                  {item.name}
+                  {item.title}
                 </Text>
               </View>
 
@@ -325,16 +344,25 @@ const Schemes = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    {item.content}
+                    {item.organization}
                   </Text>
                 </View>
-                <Image
-                  source={next}
-                  style={{
-                    width: 30,
-                    height: 30,
-                  }}
-                />
+                <Pressable
+  onPress={() => {
+    if (item.link) {
+      Linking.openURL(item.link);
+    }
+  }}
+>
+  <Image
+    source={next}
+    style={{
+      width: 30,
+      height: 30,
+    }}
+  />
+</Pressable>
+
               </View>
             </Card>
           ))}
