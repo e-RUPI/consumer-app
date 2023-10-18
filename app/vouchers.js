@@ -59,7 +59,7 @@ const Voucher = () => {
   const [activeTab, setActiveTab] = useState("Active");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [activeFilter, setActiveFilter] = useState("") // Store the active filter
+  const [activeFilter, setActiveFilter] = useState(""); // Store the active filter
   const [vouchersData, setVouchersData] = useState([]);
 
   useEffect(() => {
@@ -92,7 +92,7 @@ const Voucher = () => {
     5912: "PHARMACEUTICAL",
     4722: "TRAVEL",
     8299: "EDUCATION",
-    8062: "HEALTHCARE",
+    8062: "HEALTH CARE",
   };
 
   const mccForFilter = {
@@ -100,7 +100,7 @@ const Voucher = () => {
     Pharmaceutical: 5912,
     Travel: 4722,
     Education: 8299,
-    Healthcare: 8062,
+    "Health Care": 8062,
   };
 
   const filteredVouchers = activeFilter
@@ -126,10 +126,10 @@ const Voucher = () => {
   // If there's an odd number of cards, add an empty item
   if (filteredVouchers.length % numColumns === 1) {
     // Generate a unique key for the empty item
-const emptyKey = "empty_" + Math.random().toString(36).substring(7);
+    const emptyKey = "empty_" + Math.random().toString(36).substring(7);
 
-// Push the empty item with the generated key
-filteredVouchers.push({ id: emptyKey, empty: true });
+    // Push the empty item with the generated key
+    filteredVouchers.push({ id: emptyKey, empty: true });
   }
 
   const openModal = (item) => {
@@ -553,24 +553,23 @@ filteredVouchers.push({ id: emptyKey, empty: true });
 
             {/* Footer Text */}
             <Text
-  style={[
-    styles.footerText,
-    activeTab === "Redeemed" && { color: "black" },
-  ]}
->
-  {activeTab === "Expired"
-    ? ""
-    : activeTab === "Redeemed"
-    ? `Issued on ${
-        (new Date(selectedItem?.issueDate)).toLocaleDateString() ||
-        "Issue Date Not Available"
-      }`
-    : `Expires in ${
-        getDaysRemaining(selectedItem?.expiry) ||
-        "Title Not Available"
-      } days`}
-</Text>
-
+              style={[
+                styles.footerText,
+                activeTab === "Redeemed" && { color: "black" },
+              ]}
+            >
+              {activeTab === "Expired"
+                ? ""
+                : activeTab === "Redeemed"
+                ? `Issued on ${
+                    new Date(selectedItem?.issueDate).toLocaleDateString() ||
+                    "Issue Date Not Available"
+                  }`
+                : `Expires in ${
+                    getDaysRemaining(selectedItem?.expiry) ||
+                    "Title Not Available"
+                  } days`}
+            </Text>
           </LinearGradient>
         </View>
       </Modal>
