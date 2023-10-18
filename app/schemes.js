@@ -10,7 +10,7 @@ import {
   TextInput,
   FlatList,
   Dimensions,
-  Linking
+  Linking,
 } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
@@ -79,9 +79,8 @@ const Schemes = () => {
     Pharmaceutical: 5912,
     Travel: 4722,
     Education: 8299,
-    HealthCare: 8062,
+    "Health Care": 8062,
   };
-
 
   const filteredSchemes = SchemesData.filter((scheme) => {
     if (activeFilter && mccMappings[activeFilter]) {
@@ -89,8 +88,6 @@ const Schemes = () => {
     }
     return true; // Show all schemes if no filter is active
   });
-  
-  
 
   const handleTabPress = (tabName) => {
     setActiveTab(tabName);
@@ -278,14 +275,16 @@ const Schemes = () => {
               <Pressable
                 style={[
                   styles.filterOption,
-                  activeFilter === "Banking" && styles.activeFilterOption,
+                  activeFilter === "Pharmaceutical" &&
+                    styles.activeFilterOption,
                 ]}
-                onPress={() => handleFilterPress("Banking")}
+                onPress={() => handleFilterPress("Pharmaceutical")}
               >
                 <Text
                   style={[
                     styles.filterOptionText,
-                    activeFilter === "Banking" && styles.activeFilterOptionText,
+                    activeFilter === "Pharmaceutical" &&
+                      styles.activeFilterOptionText,
                   ]}
                 >
                   Pharmaceutical
@@ -348,21 +347,20 @@ const Schemes = () => {
                   </Text>
                 </View>
                 <Pressable
-  onPress={() => {
-    if (item.link) {
-      Linking.openURL(item.link);
-    }
-  }}
->
-  <Image
-    source={next}
-    style={{
-      width: 30,
-      height: 30,
-    }}
-  />
-</Pressable>
-
+                  onPress={() => {
+                    if (item.link) {
+                      Linking.openURL(item.link);
+                    }
+                  }}
+                >
+                  <Image
+                    source={next}
+                    style={{
+                      width: 30,
+                      height: 30,
+                    }}
+                  />
+                </Pressable>
               </View>
             </Card>
           ))}
